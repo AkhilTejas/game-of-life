@@ -30,4 +30,16 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            mail subject: 'This build is successfull',
+                 body: 'This build is successfull',
+                 to: 'info@test.com'
+        }
+        failure {
+            mail subject: 'This build is failure',
+                 body: 'This build is failure',
+                 to: 'info@test.com'
+        }    
+    }
 }
