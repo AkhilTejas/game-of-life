@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'GOI' }
     options {
-        retry(3)
+        retry(1)
         timeout (time: 30, unit:'MINUTES')
     }
     triggers {
@@ -20,9 +20,9 @@ pipeline {
         }
         }
         }
-        stage('reporting') {
+    stage('reporting') {
             steps {
-                archiveArtifacts artifacts: '**/target/gameoflife.war'
+                
                 junit testResults: '**/surefire-reports/TEST-*.xml'
             }
         }
