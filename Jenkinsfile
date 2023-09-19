@@ -9,20 +9,15 @@ pipeline {
     }
     tools {
         jdk 'JDK-8'
-        maven 'Maven 3.9'
+        maven 'Maven-3.9'
     }
     parameters {choice(name: 'CHOICE', choices: ['package', 'clean package', 'install', 'clean install'])}
     stages {
-        stage('VCS') {
-            steps {
-                git url: 'https://github.com/AkhilTejas/game-of-life.git',
-                    branch: 'master'
-            }
+        stage('static code analysis'){
+    def scannerHome = tool 'SonarScanner 4.0';
+    withSonarQubeEnv('SONAR_QUBE') { // If you have configured more than one global server connection, you can specify its name
+      sh 'mvn clean package sonar:sonar -Dsonar.AkhilTejas -Dsonar.token=f5e9ddab8fc6837562a391d728a613974a643eab -Dsonar.projectKey=akhiltejas'
         }
-        stage('build and package') {
-            steps {
-                sh script: "mvn $params.CHOICE"
-            }
         }
         stage('reporting') {
             steps {
